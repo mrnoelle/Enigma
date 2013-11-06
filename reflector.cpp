@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <cctype>
 
 using namespace std;
 
 #include "reflector.hpp"
+#include "errors.h"
 
 int Reflector::set(char *file)
 {
@@ -23,12 +24,12 @@ int Reflector::set(char *file)
 
 int Reflector::connect(int input)
 {
-  for (int i=0; i<=25; i++){
-    if(input==rf[i]){
-      if(i%2==0)
-	return rf[i+1];
-      else if(i%2==1)
-	return rf[i-1];
+  for (int index=0; index < 26; index++){
+    if(input==rf[index]){
+      if(index%2==0)
+	return rf[index+1];
+      else if(index%2==1)
+	return rf[index-1];
     }
   }
   return input;

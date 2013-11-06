@@ -1,13 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
+#include <cctype>
 
 using namespace std;
 
 #include "errors.h"
 
-#include "enigma.hpp"
+//#include "enigma.hpp"
 #include "plugboard.hpp"
 #include "rotor.hpp"
 #include "reflector.hpp"
@@ -33,8 +33,6 @@ int main(int argc, char **argv)
   rot1.set(argv[3]);
   rot2.set(argv[4]);
   rot3.set(argv[5]);
-  
-  /*
   int integer=0;
   integer=pb.connect(integer);
   cout <<"output of pb = "<< integer  << endl;
@@ -57,7 +55,7 @@ int main(int argc, char **argv)
   cout << "output afetr rot1 "<< integer << endl;
   integer =pb.connect(integer);
   cout<<"result= "<<integer<<endl;
-  */
+  
 
   /*get input from user
   int letter;

@@ -1,15 +1,18 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <cctype>
+
 
 using namespace std;
 
 #include "rotor.hpp"
+#include "errors.h"
 
 Rotor::Rotor()
 {
   no_of_rotation=0;
   offset=0;
+
 }
 
 int Rotor::set(char* file)
@@ -36,7 +39,7 @@ int Rotor::set(char* file)
     //   return ERROR_CODE
   }  
   in_stream.close();
-  return 0;
+  return NO_ERROR;
 }
 
 void Rotor::rotate()
@@ -61,10 +64,10 @@ int Rotor::R_connect_L(int input)
 int Rotor::L_connect_R(int input)
 {
   //cout<<"input+offset= "<< input+offset<<endl;
-  for(int i=0; i<26; i++){
-    if( rot_map[i]==(input+offset)%26 ){
+  for(int index = 0; index < 26; index++){
+    if( rot_map[index]==(input+offset)%26 ){
      
-      int result=i-offset;
+      int result=index-offset;
       while(result < 0){
 	return result+26;
       }
