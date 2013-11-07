@@ -1,1 +1,1 @@
-./enigma plugboards/I.pb reflectors/I.rf rotors/I.rot
+./enigma plugboards/I.pb reflectors/I.rf rotors/I.rot rotors/I.rot rotors/I.rot

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cctype>
 
 
 using namespace std;
@@ -15,7 +14,7 @@ Rotor::Rotor()
 
 }
 
-int Rotor::set(char* file)
+Rotor::Rotor(char* file)
 {
   int next;
   ifstream in_stream;
@@ -30,14 +29,17 @@ int Rotor::set(char* file)
     while(!in_stream.fail()){
       int j=0;
       in_stream >> next;
-      rot_pos[j]=next;
+      rot_notch[j]=next;
       j++;
     }
 
     // Check that there has been no error
     // If we find an error
     //   return ERROR_CODE
-  }  
+  } 
+  notch_size=j;
+  cout<< notch_size <<endl;
+  cout << "notch "<< rot_notch[0] << endl; 
   in_stream.close();
   return NO_ERROR;
 }
@@ -48,6 +50,18 @@ void Rotor::rotate()
 
   offset=no_of_rotation%26;
   cout<<"offset="<< offset <<endl;
+}
+
+
+int Rotor::set_notch(int input)
+{
+  for(int index=0; index <= notch_size; index++){
+    if (  input+offset == notch[index] )
+      return 1;
+  }
+
+  return 0;
+
 }
 
 

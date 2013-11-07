@@ -7,6 +7,8 @@ private:
 
 public:
 
+  Plugboard(char* file);
+
   int set(char* file);
   int connect(int input);
 

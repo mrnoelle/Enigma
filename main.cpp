@@ -22,10 +22,17 @@ int main(int argc, char **argv)
   //int result = pb.set(argv[1]);
   // if (result != NO_ERROR)
   //  return result;
-  Reflector rf;
-  rf.set(argv[2]);
+  //Reflector rf;
+  //rf.set(argv[2]);
 
-  
+  Enigma e(3, argv[1]); 
+
+  // is e valid?
+  e.status() 
+
+  if (error) return ERROR_CODE;
+
+
   Rotor rot1;
   Rotor rot2;
   Rotor rot3;
@@ -33,11 +40,15 @@ int main(int argc, char **argv)
   rot1.set(argv[3]);
   rot2.set(argv[4]);
   rot3.set(argv[5]);
+
   int integer=0;
   integer=pb.connect(integer);
   cout <<"output of pb = "<< integer  << endl;
  
   rot1.rotate(); // rotate method should increment offset attribute in rot1
+  if (rot1.inTurnoverPosition())
+  // rotate other rotors if necessary
+
   integer = rot1.R_connect_L(integer);
   cout <<"output of rot1 " << integer << endl;
   integer = rot2.R_connect_L(integer);
