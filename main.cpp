@@ -2,12 +2,13 @@
 #include <fstream>
 #include <string>
 #include <cctype>
+#include <vector>
 
 using namespace std;
 
 #include "errors.h"
 
-//#include "enigma.hpp"
+#include "enigma.hpp"
 #include "plugboard.hpp"
 #include "rotor.hpp"
 #include "reflector.hpp"
@@ -16,7 +17,35 @@ using namespace std;
 
 int main(int argc, char **argv) 
 {
-  
+  if (argc == 1) {
+    return INSUFFICIENT_NUMBER_OF_PARAMETERS;
+  }
+  int rotor_nb = argc - 4;
+/*
+  Enigma e(argv[1], argv[2]);
+
+
+  for (int i = 3; i < argc - 1; ++i) {
+    e.addRotor(argv[i]);
+  }
+
+  char input;
+  if (isupper(input)) {
+    cin>>ws;
+    cin>>input;
+    cout << e.encrypt(input);
+  } 
+  else {
+  cerr << "main: invalid input character " << input << ". Terminating." << endl;
+	return EXIT_FAILURE;
+  }
+ 
+  return EXIT_SUCCESS;
+
+*/
+
+  return 0;
+  /*
   Plugboard pb;
   pb.set(argv[1]);
   //int result = pb.set(argv[1]);
@@ -68,41 +97,6 @@ int main(int argc, char **argv)
   cout<<"result= "<<integer<<endl;
   
 
-  /*get input from user
-  int letter;
-
-  cin >> letter;
-  letter = pb.connect(letter);
-  letter = rot1.R_connect_L(letter);
-  letter = rf.connect(letter);
-  letter = rot1.L_connect_R(letter);
-  letter = pb.connect(letter);
-
-  cout << letter;
- 
   */
 
-
-    /* int pos[3];
-  PosFile.open(argv[argc-1]);
-  if(!PosFile.fail()){
-    for(int i=0; i<=3;i++)
-      PosFile>>pos[i];
-   }
-
-  PosFile.close();
-
-  */
-
-
-  /* cout<<argc<<endl;
-  for(int i=0;i<argc;i++)
-  cout<<argv[i]<<endl;*/
- 
-
-
-
-
-
-  return 0;
 }

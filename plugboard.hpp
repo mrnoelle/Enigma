@@ -1,3 +1,6 @@
+#ifndef PLUGBOARD_H
+#define PLUGBOARD_H
+
 class Plugboard
 {
 private:
@@ -7,10 +10,9 @@ private:
 
 public:
 
-  Plugboard(char* file);
-
-  int set(char* file);
+  Plugboard(char* pbFile);
   int connect(int input);
 
 };
 
+#endif

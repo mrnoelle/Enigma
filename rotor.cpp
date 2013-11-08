@@ -1,47 +1,58 @@
 #include <iostream>
 #include <fstream>
-
-
+#include <vector>
 using namespace std;
 
+#include "enigma.hpp"
 #include "rotor.hpp"
 #include "errors.h"
+
 
 Rotor::Rotor()
 {
   no_of_rotation=0;
   offset=0;
-
 }
 
-Rotor::Rotor(char* file)
+Rotor:: Rotor(char* rotFile, char* posFile, int rotor_nb) 
 {
+  /*set rotor configuration and notch position*/
   int next;
   ifstream in_stream;
-  in_stream.open(file);
+  in_stream.open(rotFile);
 
   if(!in_stream.fail()){
     for(int i=0; i<26; i++){
       in_stream>>next;
       rot_map[i]=next;
-     
+      int rot_config_size=i;
     }
+  
     while(!in_stream.fail()){
       int j=0;
       in_stream >> next;
       rot_notch[j]=next;
       j++;
+      int notch_size=j;
     }
-
-    // Check that there has been no error
-    // If we find an error
-    //   return ERROR_CODE
+   
   } 
-  notch_size=j;
-  cout<< notch_size <<endl;
-  cout << "notch "<< rot_notch[0] << endl; 
+
+ 
+ 
+  //cout<< notch_size <<endl;
+  // cout << "notch "<< rot_notch[0] << endl; 
   in_stream.close();
-  return NO_ERROR;
+
+  /*set start_pos*/
+  in_stream.open(posFile);
+  if(!in_stream.fail()){
+    for(int count = 0; count < rotor_nb; count++){
+      in_stream >> next;
+      start_pos[count]=next;
+    }
+    in_stream.close();
+
 }
 
 void Rotor::rotate()
@@ -65,7 +76,7 @@ int Rotor::set_notch(int input)
 }
 
 
-int Rotor::R_connect_L(int input)
+int Rotor::connect_forwards(int input)
 {
   int result=( rot_map[(input+offset)%26]-offset )%26;
   while(result < 0){
@@ -75,7 +86,7 @@ int Rotor::R_connect_L(int input)
 }
 
  
-int Rotor::L_connect_R(int input)
+int Rotor::connect_backwards(int input)
 {
   //cout<<"input+offset= "<< input+offset<<endl;
   for(int index = 0; index < 26; index++){

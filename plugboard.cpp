@@ -1,17 +1,17 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
-
-
+#include <vector>
 using namespace std;
 
+#include "enigma.hpp"
 #include "plugboard.hpp"
 #include "errors.h"
 
-Plugboard::Plugboard(char* file)
+Plugboard::Plugboard(char* pbFile)
 {
   ifstream in_stream;
-  in_stream.open(file);
+  in_stream.open(pbFile);
  
   int i=0;
   in_stream >> pb[i];
@@ -35,23 +35,22 @@ Plugboard::Plugboard(char* file)
   pb_length=i;
   cout<<"pb length = "<<i<<endl;
 
-
+  /*
   //error 5: impossible plugboard configuration?????????????
   for(int index_1 = 0; index_1 <= pb_length; index_1 ++){
     for(int index_2 =0; index_2 <= pb_length; index_2 ++){
       if(pb[index_1] == pb[index_2])
-	return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
-    }
+      	return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+   } 
   }
+ 
   //error 6: incorrect number of parameter
   if(pb_length%2 != 0)
     return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
-
+*/
   in_stream.close();
-  return NO_ERROR;
+ 
 }
-
-
 
 int Plugboard::connect(int input)
 {

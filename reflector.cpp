@@ -4,13 +4,15 @@
 
 using namespace std;
 
+
+#include "enigma.hpp"
 #include "reflector.hpp"
 #include "errors.h"
 
-int Reflector::set(char *file)
+int Reflector::set(char *rfFile)
 {
   ifstream in_stream;
-  in_stream.open(file);
+  in_stream.open(rfFile);
   int next;
   if(!in_stream.fail()){
     for(int i=0; i<=25; i++){

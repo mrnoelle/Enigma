@@ -1,3 +1,7 @@
+#ifndef REFLECTOR_H
+#define REFLECTOR_H
+
+
 class Reflector 
 { 
 private:
@@ -6,7 +10,9 @@ private:
 
 
 public:
-  int set(char* file);
+  Reflector(char* rfFile);
   int connect(int input);
 
 };
+
+#endif
