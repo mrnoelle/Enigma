@@ -9,7 +9,14 @@ using namespace std;
 #include "reflector.hpp"
 #include "errors.h"
 
-int Reflector::set(char *rfFile)
+
+Reflector::Reflector(char* rfFile)
+{
+  rf_status = readfile(rfFile);
+ 
+}
+
+int Reflector::readfile(char* rfFile)
 {
   ifstream in_stream;
   in_stream.open(rfFile);
@@ -18,10 +25,19 @@ int Reflector::set(char *rfFile)
     for(int i=0; i<=25; i++){
       in_stream>>next;
       rf[i]=next;
+     
     }
+   
   }  
+  //cout<<"rf[25]= "<<rf[25]<<endl;
   in_stream.close();
-  return 0;
+  
+}
+
+int Reflector:: check_status(){
+
+  return rf_status;
+
 }
 
 int Reflector::connect(int input)

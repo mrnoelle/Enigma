@@ -9,8 +9,10 @@ private:
   int pb_length;
 
 public:
-
+  int pb_status;
   Plugboard(char* pbFile);
+  int readfile(char* pbFile);
+  int check_status();
   int connect(int input);
 
 };

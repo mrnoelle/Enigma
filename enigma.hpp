@@ -10,37 +10,23 @@
 class Enigma {
 
 private:
-  Plugboard* pb_;
-  vector<Rotor*> rotors_;
-  Reflector* rf_;
+  Plugboard* pb;
+  vector<Rotor*> rotors;
+  Reflector* rf;
  
 public:
+  int start_pos[26];
   int status;
+  int rotor_nb;
+  
   Enigma(char* pbFile, char* rfFile);
   ~Enigma();
   int check_status();
-  void addRotor(char* rotFile, char* posFile, int rotor_n);
+  void addRotor(char* rotFile);
+  void set_startPos(char* posFile);
   char encrypt(char letter);
 
 };
 
 #endif
 
-/*
-class Enigma
-{
-
-private:
-  Plugboard &pb;
-  Reflector &rf;
-  Rotor &rot[MAX];
-
-  int status;
-
-public:
-  Enigma(int no_of_rotors);
-  char encrypt(char input);
-
-
-};
-*/

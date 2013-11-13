@@ -16,3 +16,5 @@ reflector.o: reflector.cpp reflector.hpp errors.h enigma.hpp
 enigma.o: enigma.cpp plugboard.hpp rotor.hpp reflector.hpp errors.h 
 	g++ -g -Wall -c enigma.cpp
 
+clean:	
+	rm -rf *.o enigma

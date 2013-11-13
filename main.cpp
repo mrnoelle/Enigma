@@ -13,90 +13,113 @@ using namespace std;
 #include "rotor.hpp"
 #include "reflector.hpp"
 
+const char *error_description(int code);
 
 
 int main(int argc, char **argv) 
 {
-  if (argc == 1) {
+  if (argc < 3) {
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
-  int rotor_nb = argc - 4;
-/*
+  
+
+  // cout<<"argc = "<<argc<<endl;
+
+  //set plugboard and reflector configuration
   Enigma e(argv[1], argv[2]);
+  
+/*
+  int result=e.check_status();
+  if (result>0){
+    cout << error_description(result)<<endl;
+    return 0; 
+  }
+*/
 
-
-  for (int i = 3; i < argc - 1; ++i) {
+  //set rotors configuration
+  for (int i = 3; i < argc - 1; i++) {
     e.addRotor(argv[i]);
   }
+  e.set_startPos(argv[argc-1]);
 
+
+
+  // is e valid?
+  // e.check_status() 
+
+  //if (error) return ERROR_CODE;
+
+  /*
+  cout<<"argv[3] = "<<argv[3]<<endl;
+  cout<<"argv[argc-1] = "<<argv[argc-1] << endl;
+  cout<<"argc-1 = "<<argc-1<<endl;
+  */
+  
+
+  //encryption
   char input;
+  cin>>ws;
+  cin>>input;
+  cout<<"input = "<<input<<endl;
+  while(!cin.eof()){
+
+  //check input is an upper case letter
   if (isupper(input)) {
-    cin>>ws;
-    cin>>input;
     cout << e.encrypt(input);
   } 
   else {
-  cerr << "main: invalid input character " << input << ". Terminating." << endl;
-	return EXIT_FAILURE;
+    cerr << "main: invalid input character " << input << ". Terminating." << endl;
+    return  INVALID_INPUT_CHARACTER;
+  }
+
+  cin>>ws;
+  cin>>input;
   }
  
-  return EXIT_SUCCESS;
+  return NO_ERROR;
 
-*/
-
-  return 0;
-  /*
-  Plugboard pb;
-  pb.set(argv[1]);
-  //int result = pb.set(argv[1]);
-  // if (result != NO_ERROR)
-  //  return result;
-  //Reflector rf;
-  //rf.set(argv[2]);
-
-  Enigma e(3, argv[1]); 
-
-  // is e valid?
-  e.status() 
-
-  if (error) return ERROR_CODE;
+}
 
 
-  Rotor rot1;
-  Rotor rot2;
-  Rotor rot3;
-  // for(int i=3; i<=argc-1; i++)
-  rot1.set(argv[3]);
-  rot2.set(argv[4]);
-  rot3.set(argv[5]);
 
-  int integer=0;
-  integer=pb.connect(integer);
-  cout <<"output of pb = "<< integer  << endl;
+const char *error_description(int code)
+{
+
+  switch(code) {
+  case 0:
+    return "NO_ERROR";
+
+  case 1: 
+    return "INSUFFICIENT_NUMBER_OF_PARAMETERS";
+   
+  case 2:
+    return  "INVALID_INPUT_CHARACTER";
+    
+  case 3:
+    return "INVALID_INDEX";
  
-  rot1.rotate(); // rotate method should increment offset attribute in rot1
-  if (rot1.inTurnoverPosition())
-  // rotate other rotors if necessary
+  case 4:
+    return "NON_NUMERIC_CHARACTER";
+    
+  case 5:
+    return "IMPOSSIBLE_PLUGBOARD_CONFIGURATION";
+    
+  case 6:
+    return "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS";
 
-  integer = rot1.R_connect_L(integer);
-  cout <<"output of rot1 " << integer << endl;
-  integer = rot2.R_connect_L(integer);
-  cout<< "output of rot2 " << integer << endl;
-  integer = rot3.R_connect_L(integer);
-  cout<< "output of rot3 " << integer << endl;
-  integer = rf.connect(integer);
-  cout << "output after rf " << integer << endl;
-
-  integer = rot3.L_connect_R(integer);
-  cout << "output after rot3 "<<integer << endl; 
-  integer = rot2.L_connect_R(integer);
-  cout << "output after rot2 "<< integer << endl;
-  integer = rot1.L_connect_R(integer);
-  cout << "output afetr rot1 "<< integer << endl;
-  integer =pb.connect(integer);
-  cout<<"result= "<<integer<<endl;
+  case 7:
+    return "INVALID_ROTOR_MAPPING"; 
+   
+  case 8:
+    return "NO_ROTOR_STARTING_POSITION";
+   
+  case 9:
+    return "INVALID_REFLECTOR_MAPPING";
   
-
-  */
-
+  case 10:
+    return "ERROR_OPENING_CONFIGURATION_FILE";
+  
+ 
+  }
+  return "UNKNOW_ERROR";
 }

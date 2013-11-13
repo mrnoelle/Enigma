@@ -14,62 +14,165 @@ using namespace std;
 
 Enigma::Enigma(char* pbFile, char* rfFile)
 {
-  pb_ = new Plugboard(pbFile);
-  rf_ = new Reflector(rfFile);
+  status = 0;
+  pb = new Plugboard(pbFile);
+  int pb_result = pb->check_status();
+  if(pb_result>0){
+    status = pb_result;
+  }
+
+  else if (rf = new Reflector(rfFile)){
+    int rf_result = rf->check_status();
+    if(rf_result>0){
+      status = rf_result;
+    }
+  }
 }
 
-Enigma::~Enigma() {
-  delete pb_, rf_;
 
-  // delet vector<Rotor*>!!!
+
+
+
+Enigma::~Enigma()
+{
+  delete pb;
+  delete rf;
+  
+ 
+  for( int i=0; i < rotors.size(); i++)
+    delete rotors[i];
 
 }
 
 
-int Enigma::check_status() {
+int Enigma::check_status()
+{
 
   return status;
 }
 
-void Enigma::addRotor(char* rotFile, char* posFile, int rotor_nb) {
-  rotors_.push_back(new Rotor(rotFile, posFile, rotor_nb));
+ 
+//create new rotors
+
+void Enigma::addRotor(char* rotFile) 
+{
+  
+  rotors.push_back(new Rotor(rotFile));
+  //int result = rot
+ 
+
+  
 }
 
-char Enigma::encrypt(char letter) {
+//setting start position
+
+void Enigma::set_startPos(char* posFile)
+{
+  cout<<"rotors_.size() = "<<rotors.size() << endl;
+
+  ifstream in_stream;
+  int next;
+  int startPos_size;
+  /*set start_pos*/
+  in_stream.open(posFile);
+  if(!in_stream.fail()){
+    for(int count = 0; count < 26; count++){
+      in_stream >> next;
+      start_pos[count]=next;
+      startPos_size = count;
+    }
+  
+  }
+  /*
+  //check that index is valid
+  for (int i=0; i < 26; i++){
+
+    if (start_pos[i] < 0 || start_pos[i] > 25)
+      status(3);
+  }
+  //check starting positions for rotors
+  if (startPos_size < rotors_.size())
+    status(8); 
+*/
+  cout<<"start_pos[0] = "<<start_pos[0]<<endl;
+  cout<<"start_pos[1] = "<<start_pos[1]<<endl;
+
+  in_stream.close();
+
+  for(int count =0; count < rotors.size(); count++){
+    rotors[count]->set_offset(start_pos[count]);
+  }
+
+}
+
+
+//enigma machine encrypt 
+
+char Enigma::encrypt(char letter)
+{
 
   int input = letter - 'A';
   // Map through plugboard
-  input = pb_->connect(input);
+  input = pb->connect(input);
 
-  /*
-  // Rotate rotors, breaking out of the loop unless a rotor completes a full rotation
-  for (vector<Rotor*>::iterator it = rotors_.begin(); it != rotors_.end(); ++it) {
-    if (!(*it)->rotate()) break;
-    ｝
+  cout<<endl;
+  cout<<endl;
+  cout<<"pb output = "<<input<<endl;
 
-  
-    // Map through rotors forwards
-    for (vector<Rotor*>::iterator it = rotors_.begin(); it != rotors_.end(); ++it) {
-      input = (*it)->connect_forwards(input);
-    }
-  */
+  // Map through rotors forwards
 
-    // Map through reflector
-    input = rf_->connect(input);
-    /*
-    // Map through rotors backwards
-    for (vector<Rotor*>::reverse_iterator it = rotors_.rbegin(); it != rotors_.rend(); ++it) {
-      input = (*it)->connect_backwards(input);
-    }
-    */
+  rotors[rotors.size()-1]->rotate();
 
-    // Map through plugboard
-    input = pb_->connect(input);
+  cout<<"rotors.size() ="<<rotors.size()<<endl;
 
-    char result= input + 'A';
+  for( int i = (rotors.size()-1); i > -1; i--){
+   
+    cout<<"notch loop "<<rotors[i]->isNotch(input)<<endl; 
+   
+    if(rotors[i]->isNotch(input))
+      rotors[i-1]->rotate();
 
-    return result ;
+  }
+
+  cout<<"isNotch = "<<rotors[0]->isNotch(input)<<endl;
+
+  for( int i = (rotors.size()-1); i > -1; i--){
+    input = rotors[i]->connect_forwards(input);
+  }
+
+  cout<<"rotor output= "<<input<<endl;
+
+
+  // Map through reflector
+  input = rf->connect(input);
+
+  cout<<"rf output= "<<input<<endl;
+
+  // Map through rotors backwards
+  for( int i=0; i < rotors.size(); i++){
+ 
+    input = rotors[i]->connect_backwards(input);
+  }
+
+  cout<<"rotor backwards output= "<<input<<endl;
+
+  // Map through plugboard
+  input = pb->connect(input);
+
+  char result= input + 'A';
+
+  cout<<"result= "<<result<<endl;
+
+  return result ;
+  cout<< endl;
+
 }
+
+
+
+
+
+
 
 
 /*

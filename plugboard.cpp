@@ -8,7 +8,15 @@ using namespace std;
 #include "plugboard.hpp"
 #include "errors.h"
 
+
 Plugboard::Plugboard(char* pbFile)
+{
+  pb_status = readfile(pbFile);
+
+}
+
+
+int Plugboard::readfile(char* pbFile)
 {
   ifstream in_stream;
   in_stream.open(pbFile);
@@ -31,7 +39,7 @@ Plugboard::Plugboard(char* pbFile)
  
     */
   }  
-  //cout<<pb[1];
+  // cout<<"pb = "<<pb[0]<<" "<<pb[1]<<endl;
   pb_length=i;
   cout<<"pb length = "<<i<<endl;
 
@@ -40,6 +48,7 @@ Plugboard::Plugboard(char* pbFile)
   for(int index_1 = 0; index_1 <= pb_length; index_1 ++){
     for(int index_2 =0; index_2 <= pb_length; index_2 ++){
       if(pb[index_1] == pb[index_2])
+
       	return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
    } 
   }
@@ -51,6 +60,15 @@ Plugboard::Plugboard(char* pbFile)
   in_stream.close();
  
 }
+
+
+
+int Plugboard::check_status(){
+
+  return pb_status;
+}
+
+
 
 int Plugboard::connect(int input)
 {
