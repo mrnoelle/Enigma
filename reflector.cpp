@@ -12,12 +12,7 @@ using namespace std;
 
 Reflector::Reflector(char* rfFile)
 {
-  rf_status = readfile(rfFile);
- 
-}
-
-int Reflector::readfile(char* rfFile)
-{
+  
   ifstream in_stream;
   in_stream.open(rfFile);
   int next;
@@ -34,11 +29,6 @@ int Reflector::readfile(char* rfFile)
   
 }
 
-int Reflector:: check_status(){
-
-  return rf_status;
-
-}
 
 int Reflector::connect(int input)
 {

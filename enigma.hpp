@@ -15,15 +15,16 @@ private:
   Reflector* rf;
  
 public:
-  int start_pos[26];
-  int status;
+  
   int rotor_nb;
   
   Enigma(char* pbFile, char* rfFile);
   ~Enigma();
-  int check_status();
+  int pb_checkError(char* pbFile);
+  int rf_checkError(char* rfFile);
+  int rot_checkError(char* rotFile);
   void addRotor(char* rotFile);
-  void set_startPos(char* posFile);
+  int set_startPos(char* posFile);
   char encrypt(char letter);
 
 };

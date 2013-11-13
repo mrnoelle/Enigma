@@ -15,14 +15,7 @@ Rotor::Rotor()
 }
 
 
-Rotor:: Rotor(char* rotFile) {
-
-  rot_status =  readfile(rotFile);
-
-}
-
-
-int Rotor:: readfile(char* rotFile) 
+Rotor:: Rotor(char* rotFile) 
 {
 
   /*set rotor configuration and notch position*/
@@ -73,12 +66,6 @@ int Rotor:: readfile(char* rotFile)
 
 }
 
-
-
-int Rotor::check_status(){
-
-  return rot_status;
-}
 
 
 void Rotor::rotate()

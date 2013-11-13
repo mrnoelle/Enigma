@@ -31,12 +31,9 @@ private:
 
 public:
   int notch_size;
-  int rot_status;
+ 
   Rotor();
   Rotor(char* rotFile); 
- 
-  int readfile(char* rotFile); 
-  int check_status();
 
   void rotate();
   void set_offset(int position);

@@ -13,7 +13,7 @@ using namespace std;
 #include "rotor.hpp"
 #include "reflector.hpp"
 
-const char *error_description(int code);
+//const char *error_description(int code);
 
 
 int main(int argc, char **argv) 
@@ -21,9 +21,8 @@ int main(int argc, char **argv)
   if (argc < 3) {
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
+  //check error
   
-
-  // cout<<"argc = "<<argc<<endl;
 
   //set plugboard and reflector configuration
   Enigma e(argv[1], argv[2]);
@@ -41,20 +40,6 @@ int main(int argc, char **argv)
     e.addRotor(argv[i]);
   }
   e.set_startPos(argv[argc-1]);
-
-
-
-  // is e valid?
-  // e.check_status() 
-
-  //if (error) return ERROR_CODE;
-
-  /*
-  cout<<"argv[3] = "<<argv[3]<<endl;
-  cout<<"argv[argc-1] = "<<argv[argc-1] << endl;
-  cout<<"argc-1 = "<<argc-1<<endl;
-  */
-  
 
   //encryption
   char input;
@@ -81,7 +66,7 @@ int main(int argc, char **argv)
 }
 
 
-
+/*
 const char *error_description(int code)
 {
 
@@ -123,3 +108,4 @@ const char *error_description(int code)
   }
   return "UNKNOW_ERROR";
 }
+*/
