@@ -27,41 +27,32 @@ int Plugboard::readfile(char* pbFile)
     i++;   
     in_stream>>pb[i];
 
-    /*
 
-    //error 3: invalid index
-    if(pb[i] < 0 || pb[i] >25)
-      return INVALID_INDEX;  
-
-    //error 4: non-numerical character
-    if(!isdigit(pb[i]))
-      return NON_NUMERIC_CHARACTER;
- 
-    */
   }  
-  // cout<<"pb = "<<pb[0]<<" "<<pb[1]<<endl;
+ 
   pb_length=i;
-  cout<<"pb length = "<<i<<endl;
-
-  /*
-  //error 5: impossible plugboard configuration?????????????
-  for(int index_1 = 0; index_1 <= pb_length; index_1 ++){
-    for(int index_2 =0; index_2 <= pb_length; index_2 ++){
-      if(pb[index_1] == pb[index_2])
-
-      	return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
-   } 
-  }
- 
-  //error 6: incorrect number of parameter
-  if(pb_length%2 != 0)
-    return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
-*/
   in_stream.close();
- 
+  
+  //error 4: non-numerical character
+  for(int index=0; index < pb_length; index++){
+    if(!isdigit(pb[index]))
+      return NON_NUMERIC_CHARACTER;
+  }
+  
+  //error 3: invalid index
+  for(int index=0; index < pb_length; index++){
+    if(pb[index] < 0 || pb[index] >25)
+      return INVALID_INDEX; 
+  }
+  //error 5: impossible plugboard configuration
+  for(int index_1 = 0; index_1 < pb_length; index_1 ++){
+    for(int index_2 =0; index_2 < index_1; index_2 ++){
+      if(pb[index_1] == pb[index_2])
+	return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+    }
+  }
+  return NO_ERROR;
 }
-
-
 
 int Plugboard::check_status(){
 

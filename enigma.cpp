@@ -12,34 +12,34 @@ using namespace std;
 #include "reflector.hpp"
 
 
-Enigma::Enigma(char* pbFile, char* rfFile)
+Enigma::Enigma(char* pbFile, char* rfFile): pb(NULL), rf(NULL)
 {
   status = 0;
+
   pb = new Plugboard(pbFile);
-  int pb_result = pb->check_status();
+
+  int pb_result = 0;
+  pb_result = pb->check_status();
   if(pb_result>0){
     status = pb_result;
+    return ;
   }
 
-  else if (rf = new Reflector(rfFile)){
-    int rf_result = rf->check_status();
-    if(rf_result>0){
-      status = rf_result;
-    }
-  }
+  rf = new Reflector(rfFile);
+ 
 }
-
 
 
 
 
 Enigma::~Enigma()
 {
-  delete pb;
-  delete rf;
+  if(pb)
+    delete pb;
+  if(rf)
+    delete rf;
   
- 
-  for( int i=0; i < rotors.size(); i++)
+  for( unsigned int i=0; i < rotors.size(); i++)
     delete rotors[i];
 
 }
@@ -58,9 +58,11 @@ void Enigma::addRotor(char* rotFile)
 {
   
   rotors.push_back(new Rotor(rotFile));
-  //int result = rot
- 
-
+  int rot_result = rotors.back()->check_status();
+  if(rot_result>0){
+    status = rot_result;
+    return ;
+  }
   
 }
 
@@ -68,7 +70,6 @@ void Enigma::addRotor(char* rotFile)
 
 void Enigma::set_startPos(char* posFile)
 {
-  cout<<"rotors_.size() = "<<rotors.size() << endl;
 
   ifstream in_stream;
   int next;
@@ -83,23 +84,10 @@ void Enigma::set_startPos(char* posFile)
     }
   
   }
-  /*
-  //check that index is valid
-  for (int i=0; i < 26; i++){
-
-    if (start_pos[i] < 0 || start_pos[i] > 25)
-      status(3);
-  }
-  //check starting positions for rotors
-  if (startPos_size < rotors_.size())
-    status(8); 
-*/
-  cout<<"start_pos[0] = "<<start_pos[0]<<endl;
-  cout<<"start_pos[1] = "<<start_pos[1]<<endl;
 
   in_stream.close();
 
-  for(int count =0; count < rotors.size(); count++){
+  for(unsigned int count =0; count < rotors.size(); count++){
     rotors[count]->set_offset(start_pos[count]);
   }
 
@@ -115,26 +103,17 @@ char Enigma::encrypt(char letter)
   // Map through plugboard
   input = pb->connect(input);
 
-  cout<<endl;
-  cout<<endl;
-  cout<<"pb output = "<<input<<endl;
 
   // Map through rotors forwards
 
   rotors[rotors.size()-1]->rotate();
 
-  cout<<"rotors.size() ="<<rotors.size()<<endl;
-
   for( int i = (rotors.size()-1); i > -1; i--){
-   
-    cout<<"notch loop "<<rotors[i]->isNotch(input)<<endl; 
-   
-    if(rotors[i]->isNotch(input))
+  
+    if(rotors[i]->isNotch())
       rotors[i-1]->rotate();
 
   }
-
-  cout<<"isNotch = "<<rotors[0]->isNotch(input)<<endl;
 
   for( int i = (rotors.size()-1); i > -1; i--){
     input = rotors[i]->connect_forwards(input);
@@ -149,7 +128,7 @@ char Enigma::encrypt(char letter)
   cout<<"rf output= "<<input<<endl;
 
   // Map through rotors backwards
-  for( int i=0; i < rotors.size(); i++){
+  for( unsigned int i=0; i < rotors.size(); i++){
  
     input = rotors[i]->connect_backwards(input);
   }
@@ -171,46 +150,3 @@ char Enigma::encrypt(char letter)
 
 
 
-
-
-
-
-/*
-Enigma::Enigma(int no_of_rotors, char* pbFile) : pb(pbFile)
-{
-  //error 1: insufficient number of parameters
-  reflector rf;
-  int MAX=10;
-  rotor rot[MAX];
-  
-
-  // pb.set(pbFile);
-  rf.set(argv[2]);
-
-    for(int number=0; number <= no_of_rotors; number++){
-    rot[number].set(argv[]);
-    }
- 
-
-  if (error) status = error
-}
-
-char Enigma::encrypt(char input)
-{
-  cin >> input;
-  if(isupper(input)){
-    int integer = input - 'A';
-    integer = pb.connect(integer);
-    //rotor encrypt
-    
-    integer = rf.connect(integer);
-    integer = pb.connet(integer);
-    char letter = integer + 'A';
-    return letter;
-  }
-  else return INVALID_INPUT_CHARACTER;
-}
-
-
-void link_rotor(int no_of_rotors, int set_notch)
-*/

@@ -13,6 +13,7 @@ using namespace std;
 #include "rotor.hpp"
 #include "reflector.hpp"
 
+
 const char *error_description(int code);
 
 
@@ -21,20 +22,17 @@ int main(int argc, char **argv)
   if (argc < 3) {
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
-  
-
-  // cout<<"argc = "<<argc<<endl;
 
   //set plugboard and reflector configuration
   Enigma e(argv[1], argv[2]);
   
-/*
+
   int result=e.check_status();
   if (result>0){
-    cout << error_description(result)<<endl;
-    return 0; 
+    cerr << error_description(result)<<endl;
+    return result; 
   }
-*/
+
 
   //set rotors configuration
   for (int i = 3; i < argc - 1; i++) {
@@ -42,20 +40,16 @@ int main(int argc, char **argv)
   }
   e.set_startPos(argv[argc-1]);
 
-
-
-  // is e valid?
-  // e.check_status() 
-
-  //if (error) return ERROR_CODE;
-
-  /*
-  cout<<"argv[3] = "<<argv[3]<<endl;
-  cout<<"argv[argc-1] = "<<argv[argc-1] << endl;
-  cout<<"argc-1 = "<<argc-1<<endl;
-  */
   
+/*
+  int result=e.check_status();
+  if (result>0){
+    cerr << error_description(result)<<endl;
+    return result; 
+  }
+*/
 
+ 
   //encryption
   char input;
   cin>>ws;
@@ -86,40 +80,41 @@ const char *error_description(int code)
 {
 
   switch(code) {
-  case 0:
+  case NO_ERROR:
     return "NO_ERROR";
 
-  case 1: 
+  case INSUFFICIENT_NUMBER_OF_PARAMETERS: 
     return "INSUFFICIENT_NUMBER_OF_PARAMETERS";
    
-  case 2:
+  case INVALID_INPUT_CHARACTER:
     return  "INVALID_INPUT_CHARACTER";
     
-  case 3:
+  case INVALID_INDEX:
     return "INVALID_INDEX";
  
-  case 4:
+  case NON_NUMERIC_CHARACTER:
     return "NON_NUMERIC_CHARACTER";
     
-  case 5:
+  case IMPOSSIBLE_PLUGBOARD_CONFIGURATION:
     return "IMPOSSIBLE_PLUGBOARD_CONFIGURATION";
     
-  case 6:
+  case INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS:
     return "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS";
 
-  case 7:
+  case INVALID_ROTOR_MAPPING:
     return "INVALID_ROTOR_MAPPING"; 
    
-  case 8:
+  case NO_ROTOR_STARTING_POSITION:
     return "NO_ROTOR_STARTING_POSITION";
    
-  case 9:
+  case INVALID_REFLECTOR_MAPPING:
     return "INVALID_REFLECTOR_MAPPING";
   
-  case 10:
+  case ERROR_OPENING_CONFIGURATION_FILE:
     return "ERROR_OPENING_CONFIGURATION_FILE";
   
- 
+  default:
+    return "UNKNOW_ERROR";
   }
-  return "UNKNOW_ERROR";
+ 
 }

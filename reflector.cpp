@@ -18,31 +18,38 @@ Reflector::Reflector(char* rfFile)
 
 int Reflector::readfile(char* rfFile)
 {
-  ifstream in_stream;
+
+ ifstream in_stream;
   in_stream.open(rfFile);
-  int next;
-  if(!in_stream.fail()){
-    for(int i=0; i<=25; i++){
-      in_stream>>next;
-      rf[i]=next;
-     
-    }
-   
+ 
+  int i=0;
+  in_stream >> rf[i];
+  while (!in_stream.fail()){
+    i++;   
+    in_stream>>rf[i];
+
+
   }  
-  //cout<<"rf[25]= "<<rf[25]<<endl;
+ 
+  rf_length=i;
   in_stream.close();
-  
+ 
+
+  //error 3: invalid index
+  for(int i=0; i < rf_length; i++){
+    if(rf[i] < 0 || rf[i] >25)
+      return INVALID_INDEX;
+  } 
 }
 
 int Reflector:: check_status(){
 
   return rf_status;
-
 }
 
 int Reflector::connect(int input)
 {
-  for (int index=0; index < 26; index++){
+  for (int index=0; index < rf_length; index++){
     if(input==rf[index]){
       if(index%2==0)
 	return rf[index+1];
