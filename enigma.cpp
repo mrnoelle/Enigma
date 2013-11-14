@@ -22,7 +22,7 @@ Enigma::~Enigma()
 {
   delete pb;
   delete rf;
-  for( int i=0; i < rotors.size(); i++)
+  for( unsigned int i=0; i < rotors.size(); i++)
     delete rotors[i];
 
 }
@@ -194,10 +194,10 @@ int Enigma::set_startPos(char* posFile)
   cout<<"start_pos[0] = "<<start_pos[0]<<endl;
   cout<<"start_pos[1] = "<<start_pos[1]<<endl;
  
-  for(int count =0; count < rotors.size(); count++){
+  for(unsigned int count =0; count < rotors.size(); count++){
     rotors[count]->set_offset(start_pos[count]);
   }
-
+  return 0;
 }
 
 
@@ -218,18 +218,13 @@ char Enigma::encrypt(char letter)
 
   rotors[rotors.size()-1]->rotate();
 
-  cout<<"rotors.size() ="<<rotors.size()<<endl;
-
   for( int i = (rotors.size()-1); i > -1; i--){
-   
-    cout<<"notch loop "<<rotors[i]->isNotch(input)<<endl; 
    
     if(rotors[i]->isNotch(input))
       rotors[i-1]->rotate();
 
   }
 
-  cout<<"isNotch = "<<rotors[0]->isNotch(input)<<endl;
 
   for( int i = (rotors.size()-1); i > -1; i--){
     input = rotors[i]->connect_forwards(input);
@@ -244,7 +239,7 @@ char Enigma::encrypt(char letter)
   cout<<"rf output= "<<input<<endl;
 
   // Map through rotors backwards
-  for( int i=0; i < rotors.size(); i++){
+  for( unsigned int i=0; i < rotors.size(); i++){
  
     input = rotors[i]->connect_backwards(input);
   }

@@ -11,6 +11,12 @@ using namespace std;
 
 Plugboard::Plugboard(char* pbFile)
 {
+
+
+
+
+
+
   ifstream in_stream;
   in_stream.open(pbFile);
   int i=0;

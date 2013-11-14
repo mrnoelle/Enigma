@@ -89,12 +89,14 @@ void Rotor::set_offset(int position)
 bool Rotor::isNotch(int input)
 {
   cout<<"notch_size = "<< notch_size <<endl;
+  cout<<"rot_notch[0]= "<<rot_notch[0]<<endl; 
+
   for(int index=0; index <= notch_size; index++){
-    if (  input+offset == rot_notch[index] )
-      return 1;
+    if (  offset == rot_notch[index] )
+      return true;
   }
 
-  return 0;
+  return false;
 
 }
 
