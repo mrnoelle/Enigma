@@ -29,9 +29,12 @@ int Rotor:: readfile(char* rotFile)
   int next;
   ifstream in_stream;
   in_stream.open(rotFile);
+  if(in_stream.fail())
+    return ERROR_OPENING_CONFIGURATION_FILE;
+
   int rot_config_size=0;
   notch_size=0;
-  if(!in_stream.fail()){
+  if(!in_stream.eof()){
     for(int i=0; i<26; i++){
       in_stream>>next;
       rot_map[i]=next;
@@ -39,7 +42,7 @@ int Rotor:: readfile(char* rotFile)
     }
    
 
-    while(!in_stream.fail()){
+    while(!in_stream.eof()){
       int j=0;
       in_stream >> next;
       rot_notch[j]=next;
@@ -49,11 +52,8 @@ int Rotor:: readfile(char* rotFile)
   } 
 
   in_stream.close();
-  //error 3: invalid index
-  for (int i=0; i < rot_config_size; i++){
-    if (rot_map[i] < 0 || rot_map[i] > 25)
-      return INVALID_INDEX;
-  }
+
+  return NO_ERROR;
 
 }
 

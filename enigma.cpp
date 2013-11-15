@@ -68,31 +68,47 @@ void Enigma::addRotor(char* rotFile)
 
 //setting start position
 
-void Enigma::set_startPos(char* posFile)
+int Enigma::set_startPos(char* posFile)
 {
 
   ifstream in_stream;
-  int next;
-  int startPos_size;
+
   /*set start_pos*/
   in_stream.open(posFile);
-  if(!in_stream.fail()){
-    for(int count = 0; count < 26; count++){
+  if(in_stream.fail())
+    return ERROR_OPENING_CONFIGURATION_FILE;
+  int i = 0;
+  int next;
+  in_stream >> next;
+  while(!in_stream.eof()){
+      start_pos[i]=next;
       in_stream >> next;
-      start_pos[count]=next;
-      startPos_size = count;
-    }
-  
+      i++;
   }
-
+  startPos_size = i;
   in_stream.close();
+
+  /*
+  int rotor_nb = static_cast<int>(rotors.size())
+    if (rotor_nb > startPos_size)
+      return NO_ROTOR_STARTING_POSITION;
+  */
 
   for(unsigned int count =0; count < rotors.size(); count++){
     rotors[count]->set_offset(start_pos[count]);
   }
 
+  return NO_ERROR;
 }
 
+/* check error for no rotor starting position 
+int Enigma::error_no_startPos(int argc, int satrtPos_size){
+  int rotor_nb = argc-4;
+rotor_nb = static_cast<int>(rotors.size())
+  if (rotor_nb > startPos_size)
+    return NO_ROTOR_STARTING_POSITION;
+}
+*/
 
 //enigma machine encrypt 
 

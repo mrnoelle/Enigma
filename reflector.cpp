@@ -19,9 +19,10 @@ Reflector::Reflector(char* rfFile)
 int Reflector::readfile(char* rfFile)
 {
 
- ifstream in_stream;
+  ifstream in_stream;
   in_stream.open(rfFile);
- 
+  if(in_stream.fail())
+    return ERROR_OPENING_CONFIGURATION_FILE;
   int i=0;
   in_stream >> rf[i];
   while (!in_stream.fail()){
@@ -33,13 +34,7 @@ int Reflector::readfile(char* rfFile)
  
   rf_length=i;
   in_stream.close();
- 
-
-  //error 3: invalid index
-  for(int i=0; i < rf_length; i++){
-    if(rf[i] < 0 || rf[i] >25)
-      return INVALID_INDEX;
-  } 
+  return NO_ERROR;
 }
 
 int Reflector:: check_status(){

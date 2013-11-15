@@ -16,6 +16,7 @@ private:
  
 public:
   int start_pos[26];
+  int startPos_size;
   int status;
   int rotor_nb;
   
@@ -23,7 +24,7 @@ public:
   ~Enigma();
   int check_status();
   void addRotor(char* rotFile);
-  void set_startPos(char* posFile);
+  int set_startPos(char* posFile);
   char encrypt(char letter);
 
 };
