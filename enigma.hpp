@@ -15,7 +15,7 @@ private:
   Reflector* rf;
  
 public:
-  int start_pos[26];
+  int start_pos[100];
   int startPos_size;
   int status;
   int rotor_nb;

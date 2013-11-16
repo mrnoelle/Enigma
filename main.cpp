@@ -13,69 +13,74 @@ using namespace std;
 #include "rotor.hpp"
 #include "reflector.hpp"
 
-
 const char *error_description(int code);
-
 
 int main(int argc, char **argv) 
 {
-  if (argc < 3) {
-    return INSUFFICIENT_NUMBER_OF_PARAMETERS;
+  int result = 0;
+
+  if (argc < 3 || argc == 4) {
+    result = INSUFFICIENT_NUMBER_OF_PARAMETERS;
+    cerr << error_description(result) << endl;
+    return result;    
   }
 
-  //set plugboard and reflector configuration
+  /* Set plugboard and reflector configuration */
   Enigma e(argv[1], argv[2]);
-  
 
-  int result=e.check_status();
-  if (result>0){
+  /* Check error status of plugboard and reflector */  
+  result=e.check_status();
+  if (result > 0){
     cerr << error_description(result)<<endl;
     return result; 
   }
 
 
-  //set rotors configuration
-  for (int i = 3; i < argc - 1; i++) {
-    e.addRotor(argv[i]);
-  }
-  e.set_startPos(argv[argc-1]);
+  /* Set rotor configuration and check error status for each rotor */
+  if ( argc - 4 > 0 ){
+    for (int i = 3; i < argc - 1; i++) {
+      e.addRotor(argv[i]);
+      result=e.check_status();
+      if (result > 0){
+	cerr << error_description(result)<<endl;
+	return result; 
+      }
+    }
 
-  
-/*
-  int result=e.check_status();
-  if (result>0){
-    cerr << error_description(result)<<endl;
-    return result; 
+    result =  e.set_startPos(argv[argc-1]);
+    if (result > 0){
+      cerr << error_description(result)<<endl;
+      return result; 
+    }  
   }
-*/
 
- 
-  //encryption
+  /* Enigma machine encryption */
   char input;
   cin>>ws;
-  cin>>input;
-  cout<<"input = "<<input<<endl;
+  cin>>input; 
   while(!cin.eof()){
-
-  //check input is an upper case letter
+    /* Check input is an upper case letter */
   if (isupper(input)) {
     cout << e.encrypt(input);
   } 
   else {
-    cerr << "main: invalid input character " << input << ". Terminating." << endl;
-    return  INVALID_INPUT_CHARACTER;
+    result = INVALID_INPUT_CHARACTER; 
+    cout << "test" << endl; 
+    cerr <<  error_description(result)<< endl;
+    return result;
   }
 
   cin>>ws;
   cin>>input;
   }
  
-  return NO_ERROR;
+ 
 
+  return NO_ERROR;
 }
 
 
-
+/* Helper function to describe the error */
 const char *error_description(int code)
 {
 
@@ -109,6 +114,9 @@ const char *error_description(int code)
    
   case INVALID_REFLECTOR_MAPPING:
     return "INVALID_REFLECTOR_MAPPING";
+
+  case INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS:
+    return "INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS";
   
   case ERROR_OPENING_CONFIGURATION_FILE:
     return "ERROR_OPENING_CONFIGURATION_FILE";

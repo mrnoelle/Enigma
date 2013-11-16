@@ -6,12 +6,13 @@ class Rotor
 {
 private:
   
-  int rot_map[26];
-  int rot_notch[26];
+  int rot_map[52];
+  int rot_notch[52];
   int offset;
 
 
 public:
+  int rot_length;
   int notch_size;
   int rot_status;
   Rotor();

@@ -1,11 +1,26 @@
-2
-5
-1
-0
-2
-2
-9
-2
-1
-4
- num 2510229214 - -1784738082
+   offset   11
+H   offset   12
+N   offset   13
+O   offset   14
+V   offset   15
+X   offset   16
+K   offset   17
+is notch
+   offset   19
+P   offset   18
+G   offset   19
+T   offset   20
+U   offset   21
+U   offset   22
+P   offset   23
+D   offset   24
+P   offset   25
+P   offset   0
+C   offset   1
+E   offset   2
+C   offset   3
+R   offset   4
+S   offset   5
+H   offset   6
+J   offset   7
+L
