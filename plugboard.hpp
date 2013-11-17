@@ -5,11 +5,12 @@ class Plugboard
 {
 private:
   
-  int pb[52];
+  int pb[104];
   int pb_length;
 
 public:
   int pb_status;
+  Plugboard();
   Plugboard(char* pbFile);
   int readfile(char* pbFile);
   int check_status();

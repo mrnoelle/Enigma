@@ -12,6 +12,14 @@ using namespace std;
 #include "reflector.hpp"
 
 
+Enigma::Enigma()
+{
+
+  for(int i=0; i < 104; i++)
+    start_pos[i] = 0;
+}
+
+
 Enigma::Enigma(char* pbFile, char* rfFile): pb(NULL), rf(NULL)
 {
   status = 0;

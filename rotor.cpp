@@ -12,7 +12,10 @@ using namespace std;
 Rotor::Rotor()
 { 
   offset=0;
-
+  for(int i=0; i < 104; i++){
+    rot_map[i] = 0;
+    rot_notch[i] = 0;
+  }
 }
 
 
@@ -66,7 +69,7 @@ int Rotor:: readfile(char* rotFile)
   }
 
   /*Store the notch posion into another array*/ 
-  for(j=0; j+26 < rot_length; j++){
+  for(j=0; j+26 <= rot_length; j++){
     rot_notch[j] = rot_map[j+26];
   }
   notch_size = j;

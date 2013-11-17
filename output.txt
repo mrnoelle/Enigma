@@ -1,26 +1,16 @@
-   offset   11
-H   offset   12
+   offset   12
 N   offset   13
-O   offset   14
-V   offset   15
-X   offset   16
-K   offset   17
-is notch
-   offset   19
-P   offset   18
-G   offset   19
-T   offset   20
-U   offset   21
-U   offset   22
+H   offset   14
+E   offset   15
+R   offset   16
+J   offset   17
+W   offset   18
+D   offset   19
+Y   offset   20
+V   offset   21
+J   offset   22
 P   offset   23
-D   offset   24
-P   offset   25
-P   offset   0
-C   offset   1
-E   offset   2
-C   offset   3
-R   offset   4
-S   offset   5
-H   offset   6
-J   offset   7
-L
+H   offset   24
+N   offset   25
+H   offset   0
+is notch

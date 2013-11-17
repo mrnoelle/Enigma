@@ -7,6 +7,14 @@ using namespace std;
 #include "reflector.hpp"
 #include "errors.h"
 
+Reflector::Reflector()
+{
+
+  for(int i=0; i < 104; i++)
+    rf[i] = 0;
+}
+
+
 /*Reflector constructor: record the status, that is error code of reflector configuration*/
 Reflector::Reflector(char* rfFile)
 {

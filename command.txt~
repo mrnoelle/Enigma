@@ -22,7 +22,7 @@ input: LOREMIPSUMDOLORSITAMET
 output: NHERJWDYVJPHNHEYWBQJRB
 
 
-./enigma plugboards/null.pb reflectors/II.rf rotors/shift_up.rot rotors/III.pos < input2.txt > output.txt
+./enigma plugboards/null.pb reflectors/II.rf rotors/shift_up.rot rotors/III.pos < input3.txt > output.txt
 
 3)
 
@@ -44,7 +44,7 @@ starting positions: 11 25
 input: ALLTHEWORLDSASTAGE
 output: FOOIRDZLNXTFDFNQYX
 
-./enigma plugboards/II.pb reflectors/IV.rf rotors/IV.rot rotors/VI.rot rotors/III.pos < input4.txt > output.txt
+./enigma plugboards/II.pb reflectors/IV.rf rotors/IV.rot rotors/VI.rot rotors/III.pos < input3.txt > output.txt
 
 5)
 

@@ -6,8 +6,8 @@ class Rotor
 {
 private:
   
-  int rot_map[52];
-  int rot_notch[52];
+  int rot_map[104];
+  int rot_notch[104];
   int offset;
 
 
