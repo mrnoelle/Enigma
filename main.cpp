@@ -25,6 +25,8 @@ int main(int argc, char **argv)
     return result;    
   }
 
+ 
+
   /* Set plugboard and reflector configuration */
   Enigma e(argv[1], argv[2]);
 
@@ -35,7 +37,7 @@ int main(int argc, char **argv)
     return result; 
   }
 
-
+ 
   /* Set rotor configuration and check error status for each rotor */
   if ( argc - 4 > 0 ){
     for (int i = 3; i < argc - 1; i++) {
@@ -54,6 +56,7 @@ int main(int argc, char **argv)
     }  
   }
 
+
   /* Enigma machine encryption */
   char input;
   cin>>ws;
@@ -65,7 +68,6 @@ int main(int argc, char **argv)
   } 
   else {
     result = INVALID_INPUT_CHARACTER; 
-    cout << "test" << endl; 
     cerr <<  error_description(result)<< endl;
     return result;
   }

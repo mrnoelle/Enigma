@@ -12,14 +12,6 @@ using namespace std;
 #include "reflector.hpp"
 
 
-Enigma::Enigma()
-{
-
-  for(int i=0; i < 104; i++)
-    start_pos[i] = 0;
-}
-
-
 Enigma::Enigma(char* pbFile, char* rfFile): pb(NULL), rf(NULL)
 {
   status = 0;
@@ -52,7 +44,7 @@ Enigma::~Enigma()
     delete rotors[i];
 }
 
-
+/* Helper function to return the error code to main */
 int Enigma::check_status()
 {
 
@@ -60,7 +52,7 @@ int Enigma::check_status()
 }
 
  
-/* create new rotors */
+/* Create new rotors into a vector */
 void Enigma::addRotor(char* rotFile) 
 {  
   rotors.push_back(new Rotor(rotFile));
@@ -71,7 +63,7 @@ void Enigma::addRotor(char* rotFile)
   } 
 }
 
-/* Set start position and check error */
+/* Set start positions and check error */
 int Enigma::set_startPos(char* posFile)
 {
   int i=0;
@@ -106,7 +98,7 @@ int Enigma::set_startPos(char* posFile)
     return NO_ROTOR_STARTING_POSITION;
 
   /* Finish error check, set start position for each rotor */
-  for(unsigned int count =0; count < rotors.size(); count++){
+  for( int count =0; count < rotor_nb; count++){
     rotors[count]->set_offset(start_pos[count]);
   }
 
@@ -122,39 +114,48 @@ char Enigma::encrypt(char letter)
   /* Map through plugboard */
   input = pb->connect(input);
 
-  if ( rotors.size() > 0){
-    /* Always rotate the last rotor */
-    rotors[rotors.size()-1]->rotate();
 
-    /*Check notch position*/
-    for( int i = (rotors.size()-1); i > -1; i--){ 
-   
-      if(rotors[i]->isNotch()){
-	rotors[i-1]->rotate();
-      }
+  /* Map through rotors forwards */
+ if ( rotors.size() > 0)
+    {
+
+      /* Always rotate the last rotor */
+      rotors[rotor_nb-1]->rotate();
     
-    }
+      /*Check notch position*/
+      for( int i = rotor_nb - 1; i > 0; i--)
+	{
+	  if(rotors[i]->is_notch_check()){
+	     
+	    rotors[i-1]->rotate();
+	    break;
+	  }
+	}
+      
 
-
-    /* Map through rotors forwards */
-    for( int i = (rotors.size()-1); i > -1; i--){
+      /* Map through rotors forwards */
+      for( int i = (rotor_nb - 1); i > -1; i--)
+	{
   
-      input = rotors[i]->connect_forwards(input);
+	  input = rotors[i]->connect_forwards(input);
+	}
     }
-  }
 
   /* Map through reflector */
-  
+ 
   input = rf->connect(input);
  
+
+  /* Map through rotors backwards */
+ if ( rotors.size() > 0)
+   {
+     
+     for( int i=0; i < rotor_nb; i++)
+       {
  
-  if ( rotors.size() > 0){
-    /* Map through rotors backwards */
-    for( unsigned int i=0; i < rotors.size(); i++){
- 
-      input = rotors[i]->connect_backwards(input);
-    }
-  }
+	 input = rotors[i]->connect_backwards(input);
+       }
+   }
 
   /* Map through plugboard */
   input = pb->connect(input);
@@ -162,8 +163,6 @@ char Enigma::encrypt(char letter)
   char result= input + 'A';
 
   return result ;
-
-  cout << endl;
 
 }
 

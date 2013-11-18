@@ -15,12 +15,11 @@ private:
   Reflector* rf;
  
 public:
-  int start_pos[104];
+  int start_pos[512];
   int startPos_size;
   int status;
-  int rotor_nb;
-  
-  Enigma();
+  int rotor_nb; 
+ 
   Enigma(char* pbFile, char* rfFile);
   ~Enigma();
   int check_status();

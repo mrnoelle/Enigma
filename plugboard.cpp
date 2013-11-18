@@ -8,13 +8,6 @@ using namespace std;
 #include "errors.h"
 
 
-Plugboard::Plugboard()
-{
-
-  for( int i=0; i < 104; i++)
-    pb[i] = 0;
-}
-
 /* Plugboard constructor: record the status, that is error code of plugboard configuration */
 Plugboard::Plugboard(char* pbFile)
 {

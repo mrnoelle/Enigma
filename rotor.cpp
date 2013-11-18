@@ -12,10 +12,7 @@ using namespace std;
 Rotor::Rotor()
 { 
   offset=0;
-  for(int i=0; i < 104; i++){
-    rot_map[i] = 0;
-    rot_notch[i] = 0;
-  }
+  notch_checked= false;
 }
 
 
@@ -40,7 +37,8 @@ int Rotor:: readfile(char* rotFile)
     return ERROR_OPENING_CONFIGURATION_FILE;
 
   in_stream >> next;
-  while (!in_stream.eof()){ 
+  while ( !in_stream.eof() ){  
+
     /*Check [ERROR 4]: read in something that is not an integer*/
     if(in_stream.fail())
       return NON_NUMERIC_CHARACTER; 
@@ -48,14 +46,14 @@ int Rotor:: readfile(char* rotFile)
     /*Check [ERROR 3]: the number is not between 0 and 25*/
     if(next < 0 || next > 25)
       return INVALID_INDEX; 
-
+   
     rot_map[i] = next;
     in_stream >> next;
     i++;
-  }   
-  rot_length=i;
+  }  
+  int rot_length=i; 
   in_stream.close();
-
+ 
   /*Check [ERROR 7]: do not provide enough mapping*/
   if( rot_length < 26 )
     return INVALID_ROTOR_MAPPING;
@@ -67,59 +65,58 @@ int Rotor:: readfile(char* rotFile)
 	return INVALID_ROTOR_MAPPING;
     }
   }
-
+  
   /*Store the notch posion into another array*/ 
-  for(j=0; j+26 <= rot_length; j++){
+  for(j=0; j+26 < rot_length; j++){
     rot_notch[j] = rot_map[j+26];
   }
   notch_size = j;
-  
 
   return NO_ERROR;
 
 }
 
 
-
+/* Check error status and return to main */
 int Rotor::check_status(){
 
   return rot_status;
 }
 
 
+/* Rotate the rotor and check notch position */
 void Rotor::rotate()
 {
   offset++;
   offset = offset%26;
-  cout <<"   offset   "<<offset<<endl;
 
+  for(int index=0; index < notch_size; index++){
+    if (  offset == rot_notch[index] ){
+      notch_checked = true;
+    }
+  } 
+}
+
+/* Make sure the notch position is checked and only rotate the next rotor once */
+bool Rotor::is_notch_check()
+{
+  if(notch_checked){
+    notch_checked = false;
+    return true;
+  }
+  else 
+    return false;
 }
 
 
-
-//set start position
+/* Set start position */ 
 void Rotor::set_offset(int position)
 {
 
   offset=position;
 }
 
-bool Rotor::isNotch()
-{
-  
-  for(int index=0; index < notch_size; index++){
-    if (  offset == rot_notch[index] ){
-      cout << "is notch" << endl;
-    return true;
-   
-    }
-  }
-
-  return false;
-
-}
-
-
+/* Map through rotors forwards */
 int Rotor::connect_forwards(int input)
 {
   
@@ -130,7 +127,7 @@ int Rotor::connect_forwards(int input)
   return result;
 }
 
- 
+/* Map through rotors backwards */ 
 int Rotor::connect_backwards(int input)
 {
   

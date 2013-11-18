@@ -6,24 +6,25 @@ class Rotor
 {
 private:
   
-  int rot_map[104];
-  int rot_notch[104];
+  int rot_map[512];
+  int rot_notch[512];
   int offset;
-
-
-public:
-  int rot_length;
   int notch_size;
+  bool notch_checked;
+  
+public:
+  
+  int rotor_nb;
   int rot_status;
-  Rotor();
-  Rotor(char* rotFile); 
+  
  
+  Rotor();
+  Rotor(char* rotFile);  
   int readfile(char* rotFile); 
   int check_status();
-
   void rotate();
+  bool is_notch_check();
   void set_offset(int position);
-  bool isNotch();
   int connect_forwards(int input);
   int connect_backwards(int input);
   
